@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+  <meta charset="UTF-8" />
+  <title>まじですかスカ！！！！！！！！！</title>
+  <meta name="description" content="YouTube APIを使って「まじですかスカ！」の公式MVを9本取得し、なるべく同時に再生します" />
+  <meta name="generator" content="Sublime Text 3" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta property="og:title" content="まじですかスカ！！！！！！！！！" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://multi-pv.kimizuka.fm" />
+  <meta property="og:image" content="https://multi-pv.kimizuka.fm/ogp.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="まじですかスカ！！！！！！！！！" />
+  <meta property="og:description" content="YouTube APIを使って「まじですかスカ！」の公式MVを9本取得し、なるべく同時に再生します" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@ki_230" />
+  <meta name="twitter:creator" content="@ki_230" />
+  <meta name="twitter:title" content="まじですかスカ！！！！！！！！！" />
+  <meta name="twitter:description" content="YouTube APIを使って「まじですかスカ！」の公式MVを9本取得し、なるべく同時に再生します" />
+  <meta name="twitter:image:src" content="https://multi-pv.kimizuka.fm/ogp.png" />
+  <meta name="format-detection" content="telephone=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap">
+  <style>
+    section,
+    nav,
+    article,
+    aside,
+    hgroup,
+    header,
+    footer,
+    figure,
+    figcaption,
+    details,
+    summary,
+    main {
+      display: block;
+    }
+
+    output {
+      display: inline;
+    }
+
+    progress,
+    meter {
+      display: inline-block;
+    }
+
+    datalist {
+      display: none;
+    }
+
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font: inherit;
+      font-size: 100%;
+      vertical-align: baseline;
+    }
+
+    html {
+      line-height: 1;
+    }
+
+    ol, ul {
+      list-style: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    caption, th, td {
+      text-align: left;
+      font-weight: normal;
+      vertical-align: middle;
+    }
+
+    q, blockquote {
+      quotes: none;
+    }
+    q:before, q:after, blockquote:before, blockquote:after {
+      content: "";
+      content: none;
+    }
+
+    a img {
+      border: none;
+    }
+
+    article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+      display: block;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      font: 24px Orbitron, "Noto Sans JP", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Meiryo, "メイリオ", sans-serif;
+      background: #000;
+    }
+
+    #load {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      background: #000;
+      z-index: 9999;
+      overflow: hidden;
+      -webkit-transition: opacity .8s ease;
+      transition: opacity .8s ease;
+    }
+    #load[data-is-load="true"] {
+      cursor: pointer;
+    }
+    #load[data-is-load="true"]:before {
+      display: block;
+      content: 'tap to start.';
+    }
+    #load[data-is-load="true"]:after {
+      margin-top: 100px;
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      font-size: 10px;
+      text-align: center;
+      content: '比較的すごめのインターネット回線に繋いだPC版Chromeでしか動かなそうです...';
+    }
+    #load .circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -50px;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      list-style: none;
+      -webkit-animation: load 1.2s ease infinite normal;
+      animation: load 1.2s ease infinite normal;
+    }
+    #load .circle .dot {
+      position: absolute;
+      margin: -5px;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      background: #999;
+      -webkit-animation: attack .6s ease infinite alternate;
+      animation: attack .6s ease infinite alternate;
+    }
+    #load .circle .dot:nth-child(1) {
+      margin-top: -35px;
+    }
+    #load .circle .dot:nth-child(2) {
+      margin-top: -14.27px;
+      margin-left: 23.53px;
+    }
+    #load .circle .dot:nth-child(3) {
+      margin-top: -14.27px;
+      margin-left: -33.53px;
+    }
+    #load .circle .dot:nth-child(4) {
+      margin-top: 19.27px;
+      margin-left: 12.63px;
+    }
+    #load .circle .dot:nth-child(5) {
+      margin-top: 19.27px;
+      margin-left: -22.63px;
+    }
+    #load.invisible {
+      opacity: 0;
+    }
+
+    #matter {
+      margin-top: 80px;
+      position: absolute;
+      top: 50%;
+      left: 20%;
+      right: 20%;
+      border: solid #999 2px;
+      border-radius: 6px;
+      height: 8px;
+      overflow: hidden;
+    }
+    #matter .inner {
+      width: 0;
+      height: 100%;
+      background: #999;
+      -webkit-transition: width .5s ease;
+      transition: width .5s ease;
+    }
+    @-webkit-keyframes load {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes load {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-webkit-keyframes attack {
+      0% {
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+      }
+
+      100% {
+        -webkit-transform: scale(1.4, 1.4);
+        transform: scale(1.4, 1.4);
+      }
+    }
+    @keyframes attack {
+      0% {
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+      }
+
+      100% {
+        -webkit-transform: scale(1.4, 1.4);
+        transform: scale(1.4, 1.4);
+      }
+    }
+
+    .note {
+      margin-top: 100px;
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .box {
+      position: absolute;
+      -webkit-transition: all .5s ease;
+      transition: all .5s ease;
+    }
+    .box:after {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      content: "";
+      cursor: pointer;
+    }
+
+    .box-inner {
+      position: absolute;
+      top: 10px; bottom: 10px;
+      left: 10px; right: 10px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .b1 {
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+    }
+
+    .b2 {
+      top: 0;
+      left: 50%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b3 {
+      top: 0;
+      left: 75%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b4 {
+      top: 25%;
+      left: 50%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b5 {
+      top: 25%;
+      left: 75%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b6 {
+      top: 50%;
+      left: 50%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b7 {
+      top: 50%;
+      left: 75%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b8 {
+      top: 75%;
+      left: 50%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .b9 {
+      top: 75%;
+      left: 75%;
+      width: 25%;
+      height: 25%;
+    }
+
+    .player {
+      position: absolute;
+      width: 100%; height: 100%;
+    }
+
+    .link {
+      position: fixed;
+      left: 8px; bottom: 8px;
+      color: #FFF;
+      font-size: 20px;
+      z-index: 9999;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+  <div class="box b1">
+    <div class="box-inner">
+      <div id="player1" class="player"></div>
+    </div>
+  </div>
+  <div class="box b2">
+    <div class="box-inner">
+      <div id="player2" class="player"></div>
+    </div>
+  </div>
+  <div class="box b3">
+    <div class="box-inner">
+      <div id="player3" class="player"></div>
+    </div>
+  </div>
+  <div class="box b4">
+    <div class="box-inner">
+      <div id="player4" class="player"></div>
+    </div>
+  </div>
+  <div class="box b5">
+    <div class="box-inner">
+      <div id="player5" class="player"></div>
+    </div>
+  </div>
+  <div class="box b6">
+    <div class="box-inner">
+      <div id="player6" class="player"></div>
+    </div>
+  </div>
+  <div class="box b7">
+    <div class="box-inner">
+      <div id="player7" class="player"></div>
+    </div>
+  </div>
+  <div class="box b8">
+    <div class="box-inner">
+      <div id="player8" class="player"></div>
+    </div>
+  </div>
+  <div class="box b9">
+    <div class="box-inner">
+      <div id="player9" class="player"></div>
+    </div>
+  </div>
+
+  <div id="load">
+    <ul class="circle">
+      <li class="dot"></li>
+      <li class="dot"></li>
+      <li class="dot"></li>
+      <li class="dot"></li>
+      <li class="dot"></li>
+    </ul>
+    <div id="matter">
+      <div class="inner"></div>
+    </div>
+    <p class="note">比較的すごめのインターネット回線に繋いだPC版Chromeでしか動かなそうです...</p>
+  </div>
+
+  <a class="link" href="https://youtu.be/t_JSBYL2wHo" target="_blank">
+    <p>モーニング娘。 『まじですかスカ！』 (MV)</p>
+    <p>https://youtu.be/t_JSBYL2wHo</p>
+  </a>
+
+  <script>
+    (function(win) {
+
+        "use strict";
+
+        win.App = win.App || {};
+        win.App.VIDEO_LIST = [
+            "c8_5cBeaSkE",
+            "Mjo-JmjQClU",
+            "Igmhp_RhDAc",
+            "Ph7T54fzzoM",
+            "0mLwCOAMqaU",
+            "JM_T-S4D-KI",
+            "iy2G9q9AZsQ",
+            "ktRdjdLr3Xc",
+            "Le0TpO5CK9U"
+        ];
+
+
+    })(this);
+    (function(win, doc, ns) {
+
+        "use strict";
+
+        function EventDispatcher() {
+            this._events = {};
+        }
+
+        EventDispatcher.prototype.hasEventListener = function(eventName) {
+            return !!this._events[eventName];
+        };
+
+        EventDispatcher.prototype.addEventListener = function(eventName, callback) {
+            if (this.hasEventListener(eventName)) {
+                var events = this._events[eventName],
+                    length = events.length,
+                    i = 0;
+
+                for (; i < length; i++) {
+                    if (events[i] === callback) {
+                        return;
+                    }
+                }
+                events.push(callback);
+            } else {
+                this._events[eventName] = [callback];
+            }
+        };
+        
+        EventDispatcher.prototype.removeEventListener = function(eventName, callback) {
+            if (!this.hasEventListener(eventName)) {
+                return;
+            } else {
+                var events = this._events[eventName],
+                    i = events.length,
+                    index;
+
+                while (i--) {
+                    if (events[i] === callback) {
+                        index = i;
+                    }
+                }
+
+                events.splice(index, 1);
+            }
+        };
+        
+        EventDispatcher.prototype.fireEvent = function(eventName, opt_this, opt_arg) {
+            if (!this.hasEventListener(eventName)) {
+                return;
+            } else {
+                var events     = this._events[eventName],
+                    copyEvents = _copyArray(events),
+                    arg        = _copyArray(arguments),
+                    length     = events.length,
+                    i = 0;
+
+                // eventNameとopt_thisを削除
+                arg.splice(0, 2);
+
+                for (; i < length; i++) {
+                    copyEvents[i].apply(opt_this || this, arg);
+                }
+            }
+
+            function _copyArray(array) {
+                var newArray = [],
+                    i = 0;
+
+                try {
+                    newArray = [].slice.call(array);
+                } catch(e) {
+                    for (; i < array.length; i++) {
+                        newArray.push(array[i]);
+                    }
+                }
+
+                return newArray;
+            }
+        };
+
+        ns.EventDispatcher = EventDispatcher;
+
+    })(this, document, App);
+    (function(win, doc, ns) {
+
+        "use strict";
+
+        function Throttle(opt_interval, opt_callback) {
+            this._timer         = null;
+            this._lastEventTime = 0;
+            this._interval      = opt_interval || 500;
+            this._callback      = opt_callback || function() {};
+        }
+
+        Throttle.prototype.setInterval = function(ms) {
+            this._interval = ms;
+        };
+
+        Throttle.prototype.addEvent = function(fn) {
+            this._callback = fn;
+        };
+
+        Throttle.prototype.fireEvent = function(opt_arg) {
+            var _this         = this,
+                currentTime   = new Date() - 0,
+                timerInterval = this._interval / 10;
+
+            clearTimeout(_this.timer);
+
+            if (currentTime - _this._lastEventTime > _this._interval) {
+                _fire();
+            } else {
+                _this.timer = setTimeout(_fire, timerInterval);
+            }
+
+            function _fire() {
+                _this._callback.call(_this, opt_arg || null);
+                _this._lastEventTime = currentTime;
+            }
+        };
+
+        ns.Throttle = Throttle;
+
+    })(this, document, App);
+    (function(win, doc, ns) {
+
+        "use strict";
+
+        var instance;
+
+        function YTPlayer() {
+            var _this    = this,
+                _players = [],
+                i = 0;
+
+            _init();
+
+            function _init() {
+                var tag            = doc.createElement("script"),
+                    firstScriptTag = doc.getElementsByTagName("script")[0];
+
+                ns.EventDispatcher.call(_this);
+
+                tag.src = "https://www.youtube.com/iframe_api";
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+                function onYouTubeIframeAPIReady() {
+                    _this.fireEvent("READEY_YOUTUBE");
+                }
+
+                // export
+                win.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+            }
+
+            function _onPlayerReady(id, isAutoPlay) { // 動画再生準備完了時イベント
+                _this.fireEvent("READEY_VIDEO", this, ++i);
+
+                if (isAutoPlay) {
+                    this.target.playVideo();
+                }
+            }
+
+            function _onPlayerStateChange(evt) { // 動画再生状態変更時イベント
+                if (this.data === 0) { // 再生終了
+                    _this.fireEvent("FINISH_VIDEO", this.target, evt);
+                }
+
+                if (this.data === 1) { // 動画再生
+                    _this.fireEvent("WATCHED_VIDEO", this.target, evt);
+                }
+            }
+
+            function build(id, videoId, opt_width, opt_height, opt_isAutoPlay) {
+                var player = new win.YT.Player(id, {
+                        width   : opt_width  || $("#" + id).width(),  // 動画幅
+                        height  : opt_height || $("#" + id).height(), // 動画高さ
+                        videoId : videoId,                  // 動画ID
+                        events  : {
+                            onReady : function(player) {
+                                _onPlayerReady.call(player, id, opt_isAutoPlay);
+                            },
+                            onStateChange : function(player) {
+                                _onPlayerStateChange.call(player, id);
+                            }
+                        },
+                        playerVars: {
+                            rel         : 0, // 関連動画
+                            showinfo    : 0, // 動画情報
+                            controls    : 0, // コントローラー
+                            wmode       : "transparent", // z-indexを有効にする
+                            playsinline : 1 // インライン再生
+                        }
+                    });
+
+                player.isFirst = true;
+
+                _players.push(player);
+
+                return player;
+            }
+
+            function _play() {
+                for (i = 0; i < length; i++) {
+                    _players[i].setVolume(0);
+                    _players[i].pauseVideo();
+                    _players[i].seekTo(0);
+
+                    if (!i) {
+                        _players[0].setVolume(100);
+                    }
+                }
+
+                document.body.addEventListener('click', function _handleClickWindow() {
+                  for (i = 0; i < length; i++) {
+                    if (i) {
+                        _players[i].playVideo();
+                    }
+
+                    // 高橋さんだけちょいはやい問題
+                    setTimeout(function() {
+                        _players[0].playVideo();
+                    }, 820); // 目合わせ
+
+                    setTimeout(function() {
+                      _this.fireEvent("LOADED_VIDEO");
+                    }, 400);
+
+                    document.body.removeEventListener('click', _handleClickWindow, false);
+                  }
+                }, false);
+            }
+
+            function load() {
+                if (/iphone|ipad|ipod|android/.test(navigator.userAgent.toLowerCase())) {
+                    _this.fireEvent("LOADING_VIDEO", _this, 1);
+                    setTimeout(_play, 100);
+
+                    return;
+                }
+
+                var length = _players.length,
+                    timer,
+                    i;
+
+                for (i = 0; i < length; i++) {
+                    _players[i].setVolume(0);
+                    _players[i].playVideo();
+                }
+
+                timer = setInterval(function() {
+                    var LEVEL = 0.2, // 1/5まで読み込みが終わったら再生
+                        ave = 0,
+                        sum = 0,
+                        i;
+
+                    for (i = 0; i < length; i++) {
+                        sum += _players[i].getVideoLoadedFraction();
+                    }
+
+                    ave = sum / length;
+
+                    if (ave >= LEVEL) {
+                        clearTimeout(timer);
+                        _play();
+                    }
+
+                    _this.fireEvent("LOADING_VIDEO", _this, ave / LEVEL);
+
+                }, 1000); // 1秒ごとに状態を確認
+            }
+
+            this.build = build;
+            this.load  = load;
+        }
+
+        YTPlayer.prototype = new ns.EventDispatcher();
+        YTPlayer.prototype.constructor = YTPlayer;
+
+        function getInstance() {
+            if (!instance) {
+                instance = new YTPlayer();
+            }
+
+            return instance;
+        }
+
+        ns.YTPlayer = {
+            getInstance: getInstance
+        };
+
+    })(this, document, App);
+    (function(win, doc, $, ns) {
+
+        "use strict";
+
+        var ytPlayer = ns.YTPlayer.getInstance(),
+            length = win.App.VIDEO_LIST.length,
+            $matter = $("#matter .inner");
+
+        ytPlayer.addEventListener("READEY_YOUTUBE", _handleYTReady);
+        ytPlayer.addEventListener("READEY_VIDEO", _handleReadyVideo);
+        ytPlayer.addEventListener("LOADING_VIDEO", _handleLoadingVideo);
+        ytPlayer.addEventListener("LOADED_VIDEO", _handleLoadedVideo);
+        ytPlayer.addEventListener("FINISH_VIDEO", _handleFinishVideo);
+
+        $(".box").on("click", _handleClickBox);
+
+        function _handleYTReady() {
+            var i;
+
+            for (i = 0; i < length; i++) {
+                this.build("player" + (i + 1), win.App.VIDEO_LIST[i]);
+            }
+        }
+
+        function _handleReadyVideo(evt) {
+            if (evt === length) {
+                ytPlayer.load();
+            }
+        }
+
+        function _handleLoadingVideo(evt) {
+            $matter.css({width: evt * 100 + "%"});
+
+            if (evt >= 1) {
+                $("#load").html("")[0].setAttribute('data-is-load', 'true');
+            }
+        }
+
+        function _handleLoadedVideo() {
+            $("#load").fadeOut();
+        }
+
+        function _handleFinishVideo() {
+          $("#load").fadeIn();
+          ytPlayer.load();
+        }
+
+        function _handleClickBox() {
+            $(".b1")[0].className = this.className;
+            this.className = "box b1";
+        }
+
+    })(this, document, $, App);
+  </script>
+</body>
+</html>
